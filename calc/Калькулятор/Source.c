@@ -1,4 +1,4 @@
-#include <stdio.h>
+п»ї#include <stdio.h>
 #include <conio.h>
 #include <windows.h>
 #include <limits.h>
@@ -13,7 +13,7 @@ int main(void) {
     setlocale(LC_ALL, "Rus");
 
     int key; 
-    short operation = 1; // пункт меню
+    short operation = 1; // РїСѓРЅРєС‚ РјРµРЅСЋ
     long a = 0; 
     long b = 0; 
 
@@ -26,15 +26,15 @@ int main(void) {
 
         system("cls");
 
-        printf("A) Число A: %d (A) ", (int)a);
+        printf("A) Р§РёСЃР»Рѕ A: %d (A) ", (int)a);
         if (operation == 1) printf("<---\n");
         else printf("\n");
 
-        printf("B) Число B: %d (B) ", (int)b);
+        printf("B) Р§РёСЃР»Рѕ B: %d (B) ", (int)b);
         if (operation == 2) printf("<---\n\n");
         else printf("\n\n");
 
-        printf("Калькулятор выполняет следующие операции:\n\n");
+        printf("РљР°Р»СЊРєСѓР»СЏС‚РѕСЂ РІС‹РїРѕР»РЅСЏРµС‚ СЃР»РµРґСѓСЋС‰РёРµ РѕРїРµСЂР°С†РёРё:\n\n");
 
         printf("1. A + B ");
         if (operation == 3) printf("<---\n");
@@ -52,36 +52,36 @@ int main(void) {
         if (operation == 6) printf("<---\n");
         else printf("\n");
 
-        printf("5. Возведение A в степень В ");
+        printf("5. Р’РѕР·РІРµРґРµРЅРёРµ A РІ СЃС‚РµРїРµРЅСЊ Р’ ");
         if (operation == 7) printf("<---\n");
         else  printf("\n");
 
-        printf("6. Извлечение корня B степени из A ");
+        printf("6. РР·РІР»РµС‡РµРЅРёРµ РєРѕСЂРЅСЏ B СЃС‚РµРїРµРЅРё РёР· A ");
         if (operation == 8) printf("<---\n");
         else printf("\n");
 
-        printf("7. Перестановка чисел A и В ");
+        printf("7. РџРµСЂРµСЃС‚Р°РЅРѕРІРєР° С‡РёСЃРµР» A Рё Р’ ");
         if (operation == 9) printf("<---\n");
         else printf("\n");
 
-        printf("8. Выход из программы (Escape) ");
+        printf("8. Р’С‹С…РѕРґ РёР· РїСЂРѕРіСЂР°РјРјС‹ (Escape) ");
         if (operation == 10) printf("<---\n");
         else printf("\n");
 
         if (operation != 1 && operation != 2) 
-            printf("\n\nВыберите номер операции от 1 до 8.\nЧтобы заменить число, нажмите А или B. \n");
+            printf("\n\nР’С‹Р±РµСЂРёС‚Рµ РЅРѕРјРµСЂ РѕРїРµСЂР°С†РёРё РѕС‚ 1 РґРѕ 8.\nР§С‚РѕР±С‹ Р·Р°РјРµРЅРёС‚СЊ С‡РёСЃР»Рѕ, РЅР°Р¶РјРёС‚Рµ Рђ РёР»Рё B. \n");
 
         if (operation == 1) 
-            printf("\nВведите цифры с клавиатуры.\n\nНажмите BackSpace, чтобы стереть последнюю цифру.\nНажмите минус на клавиатуре для изменения знака числа.\n\n");
+            printf("\nР’РІРµРґРёС‚Рµ С†РёС„СЂС‹ СЃ РєР»Р°РІРёР°С‚СѓСЂС‹.\n\nРќР°Р¶РјРёС‚Рµ BackSpace, С‡С‚РѕР±С‹ СЃС‚РµСЂРµС‚СЊ РїРѕСЃР»РµРґРЅСЋСЋ С†РёС„СЂСѓ.\nРќР°Р¶РјРёС‚Рµ РјРёРЅСѓСЃ РЅР° РєР»Р°РІРёР°С‚СѓСЂРµ РґР»СЏ РёР·РјРµРЅРµРЅРёСЏ Р·РЅР°РєР° С‡РёСЃР»Р°.\n\n");
 
         if (operation == 2) 
-            printf("\nВведите цифры с клавиатуры.\n\nНажмите BackSpace, чтобы стереть последнюю цифру.\nНажмите минус на клавиатуре для изменения знака числа.\n\n");
+            printf("\nР’РІРµРґРёС‚Рµ С†РёС„СЂС‹ СЃ РєР»Р°РІРёР°С‚СѓСЂС‹.\n\nРќР°Р¶РјРёС‚Рµ BackSpace, С‡С‚РѕР±С‹ СЃС‚РµСЂРµС‚СЊ РїРѕСЃР»РµРґРЅСЋСЋ С†РёС„СЂСѓ.\nРќР°Р¶РјРёС‚Рµ РјРёРЅСѓСЃ РЅР° РєР»Р°РІРёР°С‚СѓСЂРµ РґР»СЏ РёР·РјРµРЅРµРЅРёСЏ Р·РЅР°РєР° С‡РёСЃР»Р°.\n\n");
 
         if (operation == 3) {
 
             printf("\n%d + %d = \n\n", (int)a, (int)b); 
 
-            if (b != 0 && a / b >= 0) { // одинаковый знак +
+            if (b != 0 && a / b >= 0) { // РѕРґРёРЅР°РєРѕРІС‹Р№ Р·РЅР°Рє +
 
                 if (a >= 0) {
 
@@ -101,7 +101,7 @@ int main(void) {
                     }
                 }
 
-                if (a < 0) { // одинаковый знак -
+                if (a < 0) { // РѕРґРёРЅР°РєРѕРІС‹Р№ Р·РЅР°Рє -
 
                     if ((LONG_MIN - a < b)) {
 
@@ -120,7 +120,7 @@ int main(void) {
                 }
             }
 
-            else { // разный знак
+            else { // СЂР°Р·РЅС‹Р№ Р·РЅР°Рє
 
                 ans = a + b;
                 overflow = 0;
@@ -129,11 +129,11 @@ int main(void) {
             }
         }
 
-        if (operation == 4) { // вычитание
+        if (operation == 4) { // РІС‹С‡РёС‚Р°РЅРёРµ
 
             printf("\n%d - %d = \n\n", (int)a, (int)b);
 
-            if (b != 0 && a / b >= 0) { // если одинаковый знак
+            if (b != 0 && a / b >= 0) { // РµСЃР»Рё РѕРґРёРЅР°РєРѕРІС‹Р№ Р·РЅР°Рє
 
                 overflow = 0;
                 error = 0;
@@ -141,7 +141,7 @@ int main(void) {
 
             }
 
-            else { // если разный
+            else { // РµСЃР»Рё СЂР°Р·РЅС‹Р№
 
                 if (a >= 0) {
 
@@ -181,13 +181,13 @@ int main(void) {
             }
         }
 
-        if (operation == 5) { // умножение
+        if (operation == 5) { // СѓРјРЅРѕР¶РµРЅРёРµ
 
             printf("\n%d * %d = \n\n", (int)a, (int)b);
 
             long long prom = (long long)a * b;
 
-            if (prom > LONG_MAX || prom < LONG_MIN) { // результат выходит за пределы
+            if (prom > LONG_MAX || prom < LONG_MIN) { // СЂРµР·СѓР»СЊС‚Р°С‚ РІС‹С…РѕРґРёС‚ Р·Р° РїСЂРµРґРµР»С‹
 
                 overflow = 1;
                 ans = 0;
@@ -203,7 +203,7 @@ int main(void) {
             }
         }
 
-        if (operation == 6) { // деление
+        if (operation == 6) { // РґРµР»РµРЅРёРµ
 
             printf("\n%d / %d = \n\n", (int)a, (int)b);
 
@@ -221,7 +221,7 @@ int main(void) {
             }
         }
 
-        if (operation == 7) { // степень
+        if (operation == 7) { // СЃС‚РµРїРµРЅСЊ
 
             overflow = 0;
 
@@ -229,7 +229,7 @@ int main(void) {
 
             double cnt = pow((double)a, (double)b);
 
-            if (cnt > LONG_MAX || cnt < LONG_MIN) { // результат выходит за пределы
+            if (cnt > LONG_MAX || cnt < LONG_MIN) { // СЂРµР·СѓР»СЊС‚Р°С‚ РІС‹С…РѕРґРёС‚ Р·Р° РїСЂРµРґРµР»С‹
 
                 overflow = 1;
                 ans = 0;
@@ -254,7 +254,7 @@ int main(void) {
 
         }
 
-        if (operation == 8) { // корень
+        if (operation == 8) { // РєРѕСЂРµРЅСЊ
 
             overflow = 0;
 
@@ -263,14 +263,14 @@ int main(void) {
                 double a1 = a;
                 double b1 = b;
 
-                if (b1 <= 0 || (a1 <= 0 && b % 2 == 0 && a < b)) { // корень отрицательной степени
+                if (b1 <= 0 || (a1 <= 0 && b % 2 == 0 && a < b)) { // РєРѕСЂРµРЅСЊ РѕС‚СЂРёС†Р°С‚РµР»СЊРЅРѕР№ СЃС‚РµРїРµРЅРё
 
                     overflow = 0;
                     error = 1;
 
                 }
 
-                else if (a1 < 0) { // число из которого извлекаем корень отрицательное 
+                else if (a1 < 0) { // С‡РёСЃР»Рѕ РёР· РєРѕС‚РѕСЂРѕРіРѕ РёР·РІР»РµРєР°РµРј РєРѕСЂРµРЅСЊ РѕС‚СЂРёС†Р°С‚РµР»СЊРЅРѕРµ 
 
                     a1 *= -1;
                     ans = pow(a1, (1 / b1));
@@ -289,13 +289,13 @@ int main(void) {
 
             }
         }
-        if (operation == 9) printf("\nНажмите Enter для того, чтобы поменять числа A и B местами:\n\n");
+        if (operation == 9) printf("\nРќР°Р¶РјРёС‚Рµ Enter РґР»СЏ С‚РѕРіРѕ, С‡С‚РѕР±С‹ РїРѕРјРµРЅСЏС‚СЊ С‡РёСЃР»Р° A Рё B РјРµСЃС‚Р°РјРё:\n\n");
 
-        if (operation == 10) printf("\nНажмите Enter для выхода из программы: \n\n");
+        if (operation == 10) printf("\nРќР°Р¶РјРёС‚Рµ Enter РґР»СЏ РІС‹С…РѕРґР° РёР· РїСЂРѕРіСЂР°РјРјС‹: \n\n");
 
-        if (overflow == 1 && operation != 1 && operation != 2 && operation != 9 && operation != 10) printf("Результат выходит за пределы допустимых значений!\n");
+        if (overflow == 1 && operation != 1 && operation != 2 && operation != 9 && operation != 10) printf("Р РµР·СѓР»СЊС‚Р°С‚ РІС‹С…РѕРґРёС‚ Р·Р° РїСЂРµРґРµР»С‹ РґРѕРїСѓСЃС‚РёРјС‹С… Р·РЅР°С‡РµРЅРёР№!\n");
 
-        else if (error == 1 && operation != 1 && operation != 2 && operation != 9 && operation != 10) printf("Невозможно сделать действие\n");
+        else if (error == 1 && operation != 1 && operation != 2 && operation != 9 && operation != 10) printf("РќРµРІРѕР·РјРѕР¶РЅРѕ СЃРґРµР»Р°С‚СЊ РґРµР№СЃС‚РІРёРµ\n");
 
         else if (operation != 1 && operation != 2 && operation != 9 && operation != 10) printf("%d\n", (int)ans);
 
@@ -327,7 +327,7 @@ int main(void) {
 
         if (key == 13) { //Enter
 
-            //перестановка
+            //РїРµСЂРµСЃС‚Р°РЅРѕРІРєР°
             if (operation == 9) {
                 long c = a;
                 a = b;
@@ -338,15 +338,15 @@ int main(void) {
                 continue;
             }
 
-            //выход
+            //РІС‹С…РѕРґ
             if (operation == 10) { 
-                printf("\n\nВыход из программы...\n");
+                printf("\n\nР’С‹С…РѕРґ РёР· РїСЂРѕРіСЂР°РјРјС‹...\n");
                 return 0;
                 break; 
             }
         }
         
-        // если нажаты цифры от 0 до 9
+        // РµСЃР»Рё РЅР°Р¶Р°С‚С‹ С†РёС„СЂС‹ РѕС‚ 0 РґРѕ 9
 
         if (key >= 48 && key <= 57) {
             long inpnum = key - 48;
@@ -380,29 +380,29 @@ int main(void) {
                 continue;
             }
         }
-        // нажали стрелку
+        // РЅР°Р¶Р°Р»Рё СЃС‚СЂРµР»РєСѓ
         if (key == 224) {
             int inp2 = _getch();
 
-            // стрелка вниз
+            // СЃС‚СЂРµР»РєР° РІРЅРёР·
             if (inp2 == 80) {
                 operation += 1;
                 if (operation == 11) operation = 1;
                 continue;
             }
-            // стрелка вверх
+            // СЃС‚СЂРµР»РєР° РІРІРµСЂС…
             if (inp2 == 72) {
                 operation -= 1;
                 if (operation == 0) operation = 10;
                 continue;
             }
         }
-        // A на различных раскладках
+        // A РЅР° СЂР°Р·Р»РёС‡РЅС‹С… СЂР°СЃРєР»Р°РґРєР°С…
         if (key == 97 || key == 65 || key == 228 || key == 148) {
             operation = 1;
             continue;
         }
-        // B на различных раскладках
+        // B РЅР° СЂР°Р·Р»РёС‡РЅС‹С… СЂР°СЃРєР»Р°РґРєР°С…
         if (key == 98 || key == 66 || key == 136 || key == 168) {
             operation = 2;
             continue;
