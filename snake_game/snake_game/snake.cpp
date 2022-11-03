@@ -1,52 +1,64 @@
 #include <iostream>
 #include <vector>
 #include <conio.h>
+#include <time.h>
+#include <stdio.h>
 #include <windows.h>
 #include <locale.h>
 #include <stdlib.h>
 
 using namespace std;
 
+long random(long a) {
+    return 1 + rand() % 10;
+}
+
 int main(void) {
 
-    bool step = 0; 
+    srand((unsigned)time(NULL));
+
+    bool step = 0;
     bool lose = 1;
+    bool snake = 0;
     bool lock = 1;
     bool pol = 1;
-    int key; 
-    int cnt = 1;
-    short operation = 1; 
-    long n = 3; 
-    long m = 3; 
-    long a = 1, b = 1;
-    long menu = 1; 
-    long x_cnt = 3, o_cnt = 3;
-    long win = 0;
+    int key;
+    int cnt = 0;
+    short operation = 1;
+    long n = 3;
+    long m = 3;
+    int food = 0;
+    long a = 1, b = 1, c = 1, d = 1;
+    int snake_1_cnt = 1;
+    int snake_2_cnt = 1;
+    long menu = 1;
 
     char field[12][12];
-    char snake_1[100] = { ' ' };
-    char snake_2[100] = { ' ' };
+
+    int snake_1[100][2] = { ' ' };
+    int snake_2[100][2] = { ' ' };
+
     for (int i = 0; i < 12; i++) {
         for (int j = 0; j < 12; j++) field[i][j] = ' ';
     }
 
-    char ans = ' ';
+    char finish = ' ';
 
     while (1) {
 
         system("cls");
 
- //       for (int i = 0; i < 255; i++) cout << char(i) << ' ' << i << endl;
+        //   for (int i = 0; i < 255; i++) cout << char(i) << ' ' << i << endl;
 
-        HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE); 
+        HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
         SetConsoleTextAttribute(hConsole, 242);
         cout <<
             " ╔═╗╔╗╔╔═╗╦╔═╔═╗\n"
             " ╚═╗║║║╠═╣╠╩╗║╣\n"
             " ╚═╝╝╚╝╩ ╩╩ ╩╚═╝\n"
-             << endl;
+            << endl;
 
-        SetConsoleTextAttribute(hConsole, 240); 
+        SetConsoleTextAttribute(hConsole, 240);
 
         if (menu == 1) { // главное меню
 
@@ -76,22 +88,22 @@ int main(void) {
                 for (int j = 0; j < m + 2; j++) {
 
                     if (i == 0 && j == 0) field[i][j] = char(218);
-                    if (i == n+1 && j == m+1) field[i][j] = char(217);
-                    if (i == 0 && j == m+1) field[i][j] = char(191);
-                    if (i == n+1 && j == 0) field[i][j] = char(192);
+                    if (i == n + 1 && j == m + 1) field[i][j] = char(217);
+                    if (i == 0 && j == m + 1) field[i][j] = char(191);
+                    if (i == n + 1 && j == 0) field[i][j] = char(192);
 
-                    if (j != 0 && j != m+1 && (i == 0 || i==n+1)) field[i][j] = char(196);
-                    if ((j == 0 || j == m+1) && i != 0 && i != n+1) field[i][j] = char(179);
+                    if (j != 0 && j != m + 1 && (i == 0 || i == n + 1)) field[i][j] = char(196);
+                    if ((j == 0 || j == m + 1) && i != 0 && i != n + 1) field[i][j] = char(179);
 
                 }
             }
 
-            for (int i = 0; i < n+2; i++) // вывод поля
+            for (int i = 0; i < n + 2; i++) // вывод поля
             {
 
                 cout << ' ';
 
-                for (int j = 0; j < m+2; j++) {
+                for (int j = 0; j < m + 2; j++) {
 
                     cout << field[i][j];
 
@@ -113,62 +125,170 @@ int main(void) {
 
         if (menu == 3) { // устанавливаем барьеры
 
-            if (cnt <= n * m) {
-                    cout << " Установите барьер. " << endl;
-                    cout << "\n Используйте стрелки на клавиатуре или клавиши WASD для перемещения. \n\n Для сохранения нажмите Enter:\n\n";
-                    if (field[a][b] == ' ') field[a][b] = char(219); 
+            if (cnt <= n * m - 6) {
+                cout << " Установите барьеры. " << endl;
+                cout << "\n Используйте стрелки на клавиатуре или клавиши WASD для перемещения. \n\n Для сохранения положения нажмите Enter:\n\n";
+                if (field[a][b] == ' ') field[a][b] = char(219);
 
             }
+            else {
+                cout << " Установлено максимальное количество барьеров!\n\n";
+            }
 
-            for (int i = 0; i < n+2; i++) // вывод поля
+            for (int i = 0; i < n + 2; i++) // вывод поля
             {
                 cout << ' ';
 
-                for (int j = 0; j < m+2; j++) {
+                for (int j = 0; j < m + 2; j++) {
 
-                        cout << field[i][j];
-                    }
+                    cout << field[i][j];
+                }
 
                 cout << endl;
             }
 
 
-            cout << "\n\n " << char (249) << " Нажмите 1, чтобы начать игру.\n" << endl;
+            cout << "\n\n " << char(249) << " Нажмите 1, чтобы начать игру\n" << endl;
 
-            cout << ' ' << char(249) << " Нажмите 2, чтобы вернуться к построению поля.\n" << endl;
+            cout << ' ' << char(249) << " Нажмите 2, чтобы вернуться к построению поля\n" << endl;
 
         }
 
         if (menu == 4) { // игра
 
-            for (int i = 0; i < n+2; i++) { // вывод поля
+            if (finish == ' ') {
+
+                if (step == 0) cout << " Ходит зелёная змейка (игрок 1)\n";
+
+                else if (step == 1) cout << " Ходит фиолетовая змейка (игрок 2)\n";
+
+                cout << "\n Используйте стрелки на клавиатуре или клавиши WASD для перемещения:\n\n";
+            }
+            else {
+                cout << " Игра окончена!\n\n";
+            }
+
+            if (cnt == 0) { // старт
+
+                while (field[a][b] != ' ') {
+
+                   // a = random(a);
+                    while ((a = rand()) > 10 - (10 - 5) % 6)
+                    { /* bad value retrieved so get next one */
+                    }
+
+                    printf("%d,\t%d\n", a, a % 6 + 1);
+                    while ((b = rand()) > 10 - (10 - 5) % 6)
+                    { /* bad value retrieved so get next one */
+                    }
+
+                    printf("%d,\t%d\n", b, b % 6 + 1);
+                  //  b = random(b);
+
+                }
+
+                snake_1[0][0] = a;
+                snake_1[0][1] = b;
+
+                while (field[a][b] != ' ') {
+
+                    c = random(c);
+                    d = random(d);
+
+                }
+
+                snake_2[0][0] = c;
+                snake_2[0][1] = d;
+
+                while (food != 4) {
+
+                    while (field[a][b] != ' ') {
+
+                        a = 1 + rand() % n;
+                        b = 1 + rand() % m;
+
+                    }
+
+                    field[a][b] = char(3);
+                    food++;
+
+                }
+            }
+            cnt = 1;
+
+            for (int i = 0; i < n + 2; i++) { // вывод поля
 
                 cout << ' ';
 
-                for (int j = 0; j < m+2; j++) {
+                for (int j = 0; j < m + 2; j++) {
 
-                    cout << field[i][j];
+                    snake = 0;
 
+                    for (int k = 0; k < snake_1_cnt; k++) {
+                        if (i == snake_1[k][0] && j == snake_1[k][1]) {
+                            SetConsoleTextAttribute(hConsole, 242);
+                            cout << char(177);
+                            snake = 1;
+                            SetConsoleTextAttribute(hConsole, 240);
+                            break;
+                        }
+                    }
+                    for (int k = 0; k < snake_2_cnt; k++) {
+                        if (i == snake_2[k][0] && j == snake_2[k][1]) {
+                            SetConsoleTextAttribute(hConsole, 245);
+                            cout << char(178);
+                            snake = 1;
+                            SetConsoleTextAttribute(hConsole, 240);
+                            break;
+                        }
+                    }
+
+                    if (snake == 0) cout << field[i][j];
                 }
                 cout << endl;
             }
+
+
+            cout << snake_1[0][0] << snake_1[0][1] << snake_2[0][0] << snake_2[0][1] << endl;
+
+
+            cout << "\n Игрок 1: " << snake_1_cnt << "\t Игрок 2: " << snake_2_cnt;
+
+            cout << "\n\n " << char(249) << " Нажмите 1, чтобы вернуться назад (потеря прогресса)\n" << endl;
+
+            cout << ' ' << char(249) << " Нажмите 2, чтобы вернуться на главное меню\n" << endl;
+
         }
 
         key = _getch(); // нажали клавишу
 
         if (key == 49) { // 1
 
-            if (menu == 3) { 
+            if (menu == 3) {
 
+                field[a][b] = ' ';
                 menu = 4;
+                operation = 7;
+                cnt = 0;
+                continue;
+            }
 
-                //a = 1;
-                //b = 1;
-                //cnt = 1;
-                //win = 0;
-                //step = 0;
-                //ans = ' ';
-                //continue;
+            else if (menu == 4) { // из меню 4 в меню 3
+
+                step = 0;
+                menu = 3;
+                operation = 3;
+                for (int i = 1; i < n + 1; i++) {
+                    for (int j = 1; j < m + 1; j++) field[i][j] = ' ';
+                }
+                cnt = 0;
+                food = 0;
+                snake_1_cnt = 1;
+                finish = ' ';
+                a = 1;
+                b = 1;
+                snake_2_cnt = 1;
+                continue;
 
             }
 
@@ -180,6 +300,7 @@ int main(void) {
 
                 menu = 2;
                 operation = 3;
+                cnt = 0;
                 for (int i = 0; i < 12; i++) {
                     for (int j = 0; j < 12; j++) field[i][j] = ' ';
                 }
@@ -187,6 +308,26 @@ int main(void) {
 
             }
 
+            if (menu == 4) { // из меню 4 в меню 1
+
+                step = 0;
+                menu = 1;
+                operation = 1;
+                for (int i = 0; i < n + 2; i++) {
+                    for (int j = 0; j < m + 2; j++) field[i][j] = ' ';
+                }
+                cnt = 0;
+                n = 3;
+                m = 3;
+                a = 1;
+                b = 1;
+                snake_1_cnt = 1;
+                snake_2_cnt = 1;
+                food = 0;
+                finish = ' ';
+                continue;
+
+            }
         }
 
         if (key == 13) { // Enter
@@ -213,6 +354,7 @@ int main(void) {
                     menu = 3;
                     a = 1;
                     b = 1;
+
                     for (int i = 0; i < n + 2; i++) {
                         for (int j = 0; j < m + 2; j++) {
 
@@ -223,6 +365,7 @@ int main(void) {
 
                             if (j != 0 && j != m + 1 && (i == 0 || i == n + 1)) field[i][j] = char(196);
                             if ((j == 0 || j == m + 1) && i != 0 && i != n + 1) field[i][j] = char(179);
+
                             continue;
                         }
                     }
@@ -236,26 +379,29 @@ int main(void) {
                     continue;
 
                 }
+
             }
 
-            else if (menu == 3) {
+            if (menu == 3) {
 
-                if (cnt >= n * m + 1) continue;
+                if (cnt > n * m - 6) continue;
 
                 else {
 
                     cnt++;
 
                 }
-                
-                for (int i = 1; i < n+2; i++)
+
+                for (int i = 1; i < n + 1; i++)
                 {
-                    for (int j = 1; j < m+1; j++) {
+                    for (int j = 1; j < m + 1; j++) {
+
                         if (field[i][j] != char(219)) {
                             a = i;
                             b = j;
-                            break; 
+                            break;
                         }
+
                     }
                     cout << endl;
                 }
@@ -265,9 +411,9 @@ int main(void) {
 
         if (key == 80 || key == 155 || key == 235 || key == 115) { // вниз
 
-            if (win) continue; 
+            if (finish == 1) continue;
 
-            if (menu != 3) operation += 1;
+            if (menu != 3 && menu != 4) operation += 1;
 
             if (menu == 1) {
 
@@ -281,13 +427,13 @@ int main(void) {
 
             }
 
-            if (menu == 3 && cnt < n * m) {
+            if (menu == 3 && cnt <= n * m - 6) {
 
                 lock = 1;
 
-                for (int i = a + 1; i < n + 1; i += 1) { 
+                for (int i = a + 1; i < n + 1; i += 1) {
 
-                    if (field[i][b] != char(88) && field[i][b] != char(79)) {
+                    if (field[i][b] != char(219)) {
 
                         field[a][b] = char(32);
                         a = i;
@@ -305,7 +451,7 @@ int main(void) {
 
                             if (pol) continue;
 
-                            if (field[i][j] != char(88) && field[i][j] != char(79)) {
+                            if (field[i][b] != char(219)) {
 
                                 field[a][b] = char(32);
                                 a = i;
@@ -317,14 +463,14 @@ int main(void) {
                         }
 
                     }
-                    if (pol == 0) { 
+                    if (pol == 0) {
                         for (int i = 1; i < n + 1; i += 1)
                         {
                             for (int j = 1; j < m + 1; j += 1) {
 
                                 if (pol) continue;
 
-                                if (field[i][j] != char(88) && field[i][j] != char(79)) {
+                                if (field[i][b] != char(219)) {
 
                                     field[a][b] = char(32);
                                     a = i;
@@ -341,12 +487,99 @@ int main(void) {
 
             }
 
-            continue;
+            if (menu == 4) {
+
+                if (step == 0) {
+
+                    int x = snake_1[0][0] + 1;
+                    int y = snake_1[0][1];
+
+                    for (int k = 0; k < snake_2_cnt; k++) {
+
+                        if (snake_2[k][0] == x && snake_2[k][1] == y) {
+
+                            finish = 1;
+                            continue;
+
+                        }
+
+                    }
+
+                    if (x == n + 1 || field[x][y] == char(219)) {
+
+                        finish = 1;
+                        continue;
+
+                    }
+
+                    int cnt = 1;
+
+                    while (cnt < snake_1_cnt) {
+
+                        snake_1[snake_1_cnt - cnt][0] = snake_1[snake_1_cnt - cnt - 1][0];
+                        snake_1[snake_1_cnt - cnt][1] = snake_1[snake_1_cnt - cnt - 1][1];
+
+                        cnt++;
+
+                    }
+
+                    snake_1[0][0] = x;
+                    snake_1[0][1] = y;
+
+                    step = 1;
+                    continue;
+
+                }
+
+                else {
+
+                    int x = snake_2[0][0] + 1;
+                    int y = snake_2[0][1];
+
+                    for (int k = 0; k < snake_1_cnt; k++) {
+
+                        if (snake_1[k][0] == x && snake_1[k][1] == y) {
+
+                            finish = 1;
+                            continue;
+
+                        }
+
+                    }
+
+                    if (x == n + 1 || field[x][y] == char(219)) {
+
+                        finish = 1;
+                        continue;
+
+                    }
+
+                    int cnt = 1;
+
+                    while (cnt < snake_2_cnt) {
+
+                        snake_2[snake_2_cnt - cnt][0] = snake_2[snake_2_cnt - cnt - 1][0];
+                        snake_2[snake_2_cnt - cnt][1] = snake_2[snake_2_cnt - cnt - 1][1];
+
+                        cnt++;
+
+                    }
+
+                    snake_2[0][0] = x;
+                    snake_2[0][1] = y;
+
+                    step = 0;
+                    continue;
+                }
+
+                continue;
+            }
+
         }
 
         if (key == 75 || key == 148 || key == 228 || key == 97) { // влево
 
-            if (win) continue; 
+            if (finish == 1) continue;
 
             if (menu == 2) {
 
@@ -360,19 +593,19 @@ int main(void) {
                     else m--;
                 }
 
-                a = n-1;
+                a = n - 1;
                 b = 1;
-                
+
                 continue;
             }
 
-            if (menu == 3 && cnt < n * m) {
+            if ((menu == 3) && cnt < n * m - 6) {
 
                 lock = 1;
 
-                for (int j = b - 1; j >= 1; j -= 1) { 
+                for (int j = b - 1; j >= 1; j -= 1) {
 
-                    if (field[a][j] != char(88) && field[a][j] != char(79)) {
+                    if (field[a][j] != char(219)) {
 
                         field[a][b] = char(32);
                         b = j;
@@ -381,7 +614,7 @@ int main(void) {
                     }
                 }
 
-                if (lock) { 
+                if (lock) {
 
                     pol = 0;
                     if (a != 1) {
@@ -391,7 +624,7 @@ int main(void) {
 
                                 if (pol) continue;
 
-                                if (field[i][j] != char(88) && field[i][j] != char(79)) {
+                                if (field[i][b] != char(219)) {
 
                                     field[a][b] = char(32);
                                     a = i;
@@ -412,7 +645,7 @@ int main(void) {
 
                                 if (pol) continue;
 
-                                if (field[i][j] != char(88) && field[i][j] != char(79)) {
+                                if (field[i][b] != char(219)) {
 
                                     field[a][b] = char(32);
                                     a = i;
@@ -429,11 +662,100 @@ int main(void) {
                 }
 
             }
+
+            if (menu == 4) {
+
+                if (step == 0) {
+
+                    int x = snake_1[0][0];
+                    int y = snake_1[0][1] - 1;
+
+                    for (int k = 0; k < snake_2_cnt; k++) {
+
+                        if (snake_2[k][0] == x && snake_2[k][1] == y) {
+
+                            finish = 1;
+                            continue;
+
+                        }
+
+                    }
+
+                    if (y == 0 || field[x][y] == char(219)) {
+
+                        finish = 1;
+                        continue;
+
+                    }
+
+                    int cnt_snake = 1;
+
+                    while (cnt_snake < snake_1_cnt) {
+
+                        snake_1[snake_1_cnt - cnt_snake][0] = snake_1[snake_1_cnt - cnt_snake - 1][0];
+                        snake_1[snake_1_cnt - cnt_snake][1] = snake_1[snake_1_cnt - cnt_snake - 1][1];
+
+                        cnt_snake++;
+
+                    }
+
+                    snake_1[0][0] = x;
+                    snake_1[0][1] = y;
+
+                    step = 1;
+                    continue;
+
+                }
+
+                else {
+
+                    int x = snake_2[0][0];
+                    int y = snake_2[0][1] - 1;
+
+                    for (int k = 0; k < snake_1_cnt; k++) {
+
+                        if (snake_1[k][0] == x && snake_1[k][1] == y) {
+
+                            finish = 1;
+                            continue;
+
+                        }
+
+                    }
+
+                    if (y == 0 || field[x][y] == char(219)) {
+
+                        finish = 1;
+                        continue;
+
+                    }
+
+                    int cnt = 1;
+
+                    while (cnt < snake_2_cnt) {
+
+                        snake_2[snake_2_cnt - cnt][0] = snake_2[snake_2_cnt - cnt - 1][0];
+                        snake_2[snake_2_cnt - cnt][1] = snake_2[snake_2_cnt - cnt - 1][1];
+
+                        cnt++;
+
+                    }
+
+                    snake_2[0][0] = x;
+                    snake_2[0][1] = y;
+
+                    step = 0;
+                    continue;
+
+                }
+
+                continue;
+            }
         }
 
         if (key == 77 || key == 130 || key == 162 || key == 100) { // вправо
 
-            if (win) continue; 
+            if (finish == 1) continue;
 
             if (menu == 2) {
 
@@ -453,7 +775,7 @@ int main(void) {
 
                     if (m + 1 == 11) m = 3;
                     else m++;
-                    a = 2 * n - 1;
+                    a = n;
                     b = 1;
                     for (int i = 0; i < 12; i++) {
                         for (int j = 0; j < 12; j++) field[i][j] = ' ';
@@ -464,13 +786,13 @@ int main(void) {
 
             }
 
-            if (menu == 3 && cnt < n * m) {
+            if ((menu == 3) && cnt < n * m - 6) {
 
                 lock = 1;
 
-                for (int j = b + 1; j < m+1; j += 1) { 
+                for (int j = b + 1; j < m + 1; j += 1) {
 
-                    if (field[a][j] != char(88) && field[a][j] != char(79)) {
+                    if (field[a][j] != char(219)) {
 
                         field[a][b] = char(32);
                         b = j;
@@ -478,17 +800,17 @@ int main(void) {
                         break;
                     }
                 }
-                if (lock) { 
+                if (lock) {
 
                     pol = 0;
 
-                    for (int i = a + 1; i < n+1; i += 1) 
+                    for (int i = a + 1; i < n + 1; i += 1)
                     {
-                        for (int j = 1; j < m+1; j += 1) {
+                        for (int j = 1; j < m + 1; j += 1) {
 
                             if (pol) continue;
 
-                            if (field[i][j] != char(88) && field[i][j] != char(79)) {
+                            if (field[i][b] != char(219)) {
 
                                 field[a][b] = char(32);
                                 a = i;
@@ -503,13 +825,13 @@ int main(void) {
 
                     if (pol == 0) {
 
-                        for (int i = 1; i < n+2; i += 1) 
+                        for (int i = 1; i < n + 2; i += 1)
                         {
-                            for (int j = 1; j < m+2; j += 1) {
+                            for (int j = 1; j < m + 2; j += 1) {
 
                                 if (pol) continue;
 
-                                if (field[i][j] != char(88) && field[i][j] != char(79)) {
+                                if (field[i][b] != char(219)) {
 
                                     field[a][b] = char(32);
                                     a = i;
@@ -525,11 +847,100 @@ int main(void) {
                 }
 
             }
+
+            if (menu == 4) {
+
+                if (step == 0) {
+
+                    int x = snake_1[0][0];
+                    int y = snake_1[0][1] + 1;
+
+                    for (int k = 0; k < snake_2_cnt; k++) {
+
+                        if (snake_2[k][0] == x && snake_2[k][1] == y) {
+
+                            finish = 1;
+                            continue;
+
+                        }
+
+                    }
+
+                    if (y == m + 1 || field[x][y] == char(219)) {
+
+                        finish = 1;
+                        continue;
+
+                    }
+
+                    int cnt = 1;
+
+                    while (cnt < snake_1_cnt) {
+
+                        snake_1[snake_1_cnt - cnt][0] = snake_1[snake_1_cnt - cnt - 1][0];
+                        snake_1[snake_1_cnt - cnt][1] = snake_1[snake_1_cnt - cnt - 1][1];
+
+                        cnt++;
+
+                    }
+
+                    snake_1[0][0] = x;
+                    snake_1[0][1] = y;
+
+                    step = 1;
+                    continue;
+
+                }
+
+                else {
+
+                    int x = snake_2[0][0];
+                    int y = snake_2[0][1] - 1;
+
+                    for (int k = 0; k < snake_1_cnt; k++) {
+
+                        if (snake_1[k][0] == x && snake_1[k][1] == y) {
+
+                            finish = 1;
+                            continue;
+
+                        }
+
+                    }
+
+                    if (y == 0 || field[x][y] == char(219)) {
+
+                        finish = 1;
+                        continue;
+
+                    }
+
+                    int cnt = 1;
+
+                    while (cnt < snake_2_cnt) {
+
+                        snake_2[snake_2_cnt - cnt][0] = snake_2[snake_2_cnt - cnt - 1][0];
+                        snake_2[snake_2_cnt - cnt][1] = snake_2[snake_2_cnt - cnt - 1][1];
+
+                        cnt++;
+
+                    }
+
+                    snake_2[0][0] = x;
+                    snake_2[0][1] = y;
+
+                    step = 0;
+                    continue;
+
+                }
+
+                continue;
+            }
         }
 
         if (key == 72 || key == 150 || key == 230 || key == 119) { // вверх
 
-            if (win) continue; 
+            if (finish == 1) continue;
 
             if (menu != 3) operation -= 1;
 
@@ -544,13 +955,13 @@ int main(void) {
 
             }
 
-            if (menu == 3 && cnt < n * m) {
+            if ((menu == 4) && cnt < n * m) {
 
                 lock = 1;
 
-                for (int i = a - 1; i >= 0; i -= 1) { 
+                for (int i = a - 1; i >= 1; i -= 1) {
 
-                    if (field[i][b] != char(88) && field[i][b] != char(79)) {
+                    if (field[i][b] != char(219)) {
 
                         field[a][b] = char(32);
                         a = i;
@@ -559,15 +970,15 @@ int main(void) {
                     }
                 }
 
-                if (lock) { 
+                if (lock) {
                     pol = 0;
-                    for (int i = a - 1; i >= 0; i -= 1)
+                    for (int i = a - 1; i >= 1; i -= 1)
                     {
                         for (int j = 1; j < m + 1; j += 1) {
 
                             if (pol) continue;
 
-                            if (field[i][j] != char(88) && field[i][j] != char(79)) {
+                            if (field[i][b] != char(219)) {
 
                                 field[a][b] = char(32);
                                 a = i;
@@ -579,13 +990,13 @@ int main(void) {
                         }
 
                     }
-                    if (pol == 0) { 
+                    if (pol == 0) {
                         for (int i = n; i >= 1; i -= 1) {
                             for (int j = m; j >= 1; j -= 1) {
 
                                 if (pol) continue;
 
-                                if (field[i][j] != char(88) && field[i][j] != char(79)) {
+                                if (field[i][b] != char(219)) {
 
                                     field[a][b] = char(32);
                                     a = i;
@@ -601,6 +1012,94 @@ int main(void) {
 
                 }
 
+            }
+
+            if (menu == 4) {
+
+                if (step == 0) {
+
+                    int x = snake_1[0][0] - 1;
+                    int y = snake_1[0][1];
+
+                    for (int k = 0; k < snake_2_cnt; k++) {
+
+                        if (snake_2[k][0] == x && snake_2[k][1] == y) {
+
+                            finish = 1;
+                            continue;
+
+                        }
+
+                    }
+
+                    if (x == 0 || field[x][y] == char(219)) {
+
+                        finish = 1;
+                        continue;
+
+                    }
+
+                    int cnt = 1;
+
+                    while (cnt < snake_1_cnt) {
+
+                        snake_1[snake_1_cnt - cnt][0] = snake_1[snake_1_cnt - cnt - 1][0];
+                        snake_1[snake_1_cnt - cnt][1] = snake_1[snake_1_cnt - cnt - 1][1];
+
+                        cnt++;
+
+                    }
+
+                    snake_1[0][0] = x;
+                    snake_1[0][1] = y;
+
+                    step = 1;
+                    continue;
+
+                }
+
+                else {
+
+                    int x = snake_2[0][0] - 1;
+                    int y = snake_2[0][1];
+
+                    for (int k = 0; k < snake_1_cnt; k++) {
+
+                        if (snake_1[k][0] == x && snake_1[k][1] == y) {
+
+                            finish = 1;
+                            continue;
+
+                        }
+
+                    }
+
+                    if (x == 0 || field[x][y] == char(219)) {
+
+                        finish = 1;
+                        continue;
+
+                    }
+
+                    int cnt = 1;
+
+                    while (cnt < snake_2_cnt) {
+
+                        snake_2[snake_2_cnt - cnt][0] = snake_2[snake_2_cnt - cnt - 1][0];
+                        snake_2[snake_2_cnt - cnt][1] = snake_2[snake_2_cnt - cnt - 1][1];
+
+                        cnt++;
+
+                    }
+
+                    snake_2[0][0] = x;
+                    snake_2[0][1] = y;
+
+                    step = 0;
+                    continue;
+
+                }
+                continue;
             }
 
             continue;
