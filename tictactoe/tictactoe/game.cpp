@@ -1,4 +1,4 @@
-#include <iostream>
+Ôªø#include <iostream>
 #include <vector>
 #include <conio.h>
 #include <windows.h>
@@ -7,25 +7,27 @@
 
 using namespace std;
 
-char check(char game_field[14 * 2 + 1][14 * 2 + 1], long x, long i, long j, char z, int a, int b) { // ‰„≠™Ê®Ô Ø‡Æ¢•‡™® ¢Î®£‡ÎË†
+template <typename T>
+class  V
+    char check(vector <vector <char>>& vec, long x, long i, long j, char z) { // —Ñ—É–Ω–∫—Ü–∏—è –ø—Ä–æ–≤–µ—Ä–∫–∏ –≤—ã–∏–≥—Ä—ã—à–∞
 
-    char g; // ·®¨¢Æ´
+    char g; // —Å–∏–º–≤–æ–ª
     int cnt = 1;
     bool win = 0;
     int x1 = i;
     int y1 = j;
 
-    // ß†ØÆ¨®≠†•¨ ·®¨¢Æ´ ®ß ≠†Á†´† i ·‚‡Æ™® ØÆ´Ô
+    // –∑–∞–ø–æ–º–∏–Ω–∞–µ–º —Å–∏–º–≤–æ–ª –∏–∑ –Ω–∞—á–∞–ª–∞ i —Å—Ç—Ä–æ–∫–∏ –ø–æ–ª—è
 
     g = z;
 
-    // Ø‡Æ¢•‡™† ØÆ £Æ‡®ßÆ≠‚†´®
-    for (int k = 3; k < 2 * b + 1; k += 2) {
-        if (game_field[i][k] != game_field[i][k - 2]) {
+    // –ø—Ä–æ–≤–µ—Ä–∫–∞ –ø–æ –≥–æ—Ä–∏–∑–æ–Ω—Ç–∞–ª–∏
+    for (int k = 3; k < vec[0].size(); k += 2) {
+        if (vec[i][k] != vec[i][k - 2]) {
             cnt = 1;
         }
         else {
-            if (game_field[i][k] == z) cnt++;
+            if (vec[i][k] == z) cnt++;
             if (cnt == x) {
                 win = 1;
                 break;
@@ -35,13 +37,13 @@ char check(char game_field[14 * 2 + 1][14 * 2 + 1], long x, long i, long j, char
 
     cnt = 1;
 
-    // Ø‡Æ¢•‡™† ØÆ ¢•‡‚®™†´®
-    for (int k = 3; k < 2 * a + 1; k += 2) {
-        if (game_field[k][j] != game_field[k - 2][j]) {
+    // –ø—Ä–æ–≤–µ—Ä–∫–∞ –ø–æ –≤–µ—Ä—Ç–∏–∫–∞–ª–∏
+    for (int k = 3; k < vec.size(); k += 2) {
+        if (vec[k][j] != vec[k - 2][j]) {
             cnt = 1;
         }
         else {
-            if (game_field[k][j] == z) cnt++;
+            if (vec[k][j] == z) cnt++;
             if (cnt == x) {
                 win = 1;
                 break;
@@ -51,19 +53,19 @@ char check(char game_field[14 * 2 + 1][14 * 2 + 1], long x, long i, long j, char
 
     cnt = 1;
 
-    // Ø‡Æ¢•‡™† ØÆ Æ·≠Æ¢≠Æ© §®†£Æ≠†´®
+    // –ø—Ä–æ–≤–µ—Ä–∫–∞ –ø–æ –æ—Å–Ω–æ–≤–Ω–æ–π –¥–∏–∞–≥–æ–Ω–∞–ª–∏
     while (i != 1 && j > 1) {
         j -= 2;
         i -= 2;
     }
-    for (int k = i + 2; k < 2 * a + 1; k += 2) {
-        if (j + 2 < 2 * b + 1) {
+    for (int k = i + 2; k < vec.size(); k += 2) {
+        if (j + 2 < vec[0].size()) {
             j += 2;
-            if (game_field[k][j] != game_field[k - 2][j - 2]) {
+            if (vec[k][j] != vec[k - 2][j - 2]) {
                 cnt = 1;
             }
             else {
-                if (game_field[k][j] == z) cnt++;
+                if (vec[k][j] == z) cnt++;
                 if (cnt == x) {
                     win = 1;
                     break;
@@ -77,19 +79,19 @@ char check(char game_field[14 * 2 + 1][14 * 2 + 1], long x, long i, long j, char
 
     cnt = 1;
 
-    // Ø‡Æ¢•‡™† ØÆ ØÆ°ÆÁ≠Æ© §®†£Æ≠†´®
-    while (i != 1 && j < 2 * b - 1) {
+    // –ø—Ä–æ–≤–µ—Ä–∫–∞ –ø–æ –ø–æ–±–æ—á–Ω–æ–π –¥–∏–∞–≥–æ–Ω–∞–ª–∏
+    while (i != 1 && j < vec[0].size() - 2) {
         j += 2;
         i -= 2;
     }
-    for (int k = i + 2; k < 2 * a + 1; k += 2) {
+    for (int k = i + 2; k < vec.size(); k += 2) {
         if (j - 2 >= 1) {
             j -= 2;
-            if (game_field[k][j] != game_field[k - 2][j + 2]) {
+            if (vec[k][j] != vec[k - 2][j + 2]) {
                 cnt = 1;
             }
             else {
-                if (game_field[k][j] == z) cnt++;
+                if (vec[k][j] == z) cnt++;
                 if (cnt == x) {
                     win = 1;
                     break;
@@ -107,24 +109,24 @@ char check(char game_field[14 * 2 + 1][14 * 2 + 1], long x, long i, long j, char
 
 int main(void) {
 
-    bool step = 0; // ÂÆ§ ®£‡Æ™†
+    bool step = 0; // —Ö–æ–¥ –∏–≥—Ä–æ–∫–∞
     bool lose = 1;
     bool lock = 1;
     bool pol = 1;
-    int key; // ™Æ§ ™´†¢®Ë®
+    int key; // –∫–æ–¥ –∫–ª–∞–≤–∏—à–∏
     int cnt = 1;
-    short operation = 1; // Ø„≠™‚ ¨•≠Ó
-    long n = 2; // §´®≠† ¨†··®¢†
-    long m = 2; // Ë®‡®≠† ¨†··®¢†
+    short operation = 1; // –ø—É–Ω–∫—Ç –º–µ–Ω—é
+    long n = 2; // –¥–ª–∏–Ω–∞ –º–∞—Å—Å–∏–≤–∞
+    long m = 2; // —à–∏—Ä–∏–Ω–∞ –º–∞—Å—Å–∏–≤–∞
     long a = 1, b = 1;
-    long menu = 1; // ≠Æ¨•‡ ¨•≠Ó
+    long menu = 1; // –Ω–æ–º–µ—Ä –º–µ–Ω—é
     long x_cnt = 3, o_cnt = 3;
     long win = 0;
 
-    char field[14 * 2 + 1][14 * 2 + 1];
-    for (int i = 0; i < 14 * 2 + 1; i++) {
-        for (int j = 0; j < 14 * 2 + 1; j++) field[i][j] = ' ';
-    }
+    vector <vector <char>> field;
+    vector <vector <char>> win_field;
+    field.assign(2 * m + 1, vector<char>(2 * n + 1));
+    win_field.assign(2 * m + 1, vector<char>(2 * n + 1));
 
     char ans = ' ';
 
@@ -132,32 +134,34 @@ int main(void) {
 
         system("cls");
 
-        HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE); // ®ß¨•≠Ô•¨ Ê¢•‚
+        //   for (int i = 0; i < 256; i++) cout << i << char(i) << endl;
+
+        HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE); // –∏–∑–º–µ–Ω—è–µ–º —Ü–≤–µ—Ç
         SetConsoleTextAttribute(hConsole, 242);
         cout <<
-            " ⁄¬ø¬⁄ƒø  ⁄¬ø⁄ƒø⁄ƒø  ⁄¬ø⁄ƒø⁄ƒø\n"
-            "  ≥ ≥≥     ≥ √ƒ¥≥     ≥ ≥ ≥√¥ \n"
-            "  ¡ ¡¿ƒŸ   ¡ ¡ ¡¿ƒŸ   ¡ ¿ƒŸ¿ƒŸ\n" << endl; // ß†£Æ´Æ¢Æ™
+            " ‚îå‚î¨‚îê‚î¨‚îå‚îÄ‚îê  ‚îå‚î¨‚îê‚îå‚îÄ‚îê‚îå‚îÄ‚îê  ‚îå‚î¨‚îê‚îå‚îÄ‚îê‚îå‚îÄ‚îê\n"
+            "  ‚îÇ ‚îÇ‚îÇ     ‚îÇ ‚îú‚îÄ‚î§‚îÇ     ‚îÇ ‚îÇ ‚îÇ‚îú‚î§ \n"
+            "  ‚î¥ ‚î¥‚îî‚îÄ‚îò   ‚î¥ ‚î¥ ‚î¥‚îî‚îÄ‚îò   ‚î¥ ‚îî‚îÄ‚îò‚îî‚îÄ‚îò\n" << endl; // –∑–∞–≥–æ–ª–æ–≤–æ–∫
 
-        SetConsoleTextAttribute(hConsole, 240); // ¢Æß¢‡†È†•¨ Ê¢•‚
+        SetConsoleTextAttribute(hConsole, 240); // –≤–æ–∑–≤—Ä–∞—â–∞–µ–º —Ü–≤–µ—Ç
 
-        if (menu == 1) { // ·‚†‡‚Æ¢Æ• ¨•≠Ó
+        if (menu == 1) { // —Å—Ç–∞—Ä—Ç–æ–≤–æ–µ –º–µ–Ω—é
 
-            cout << " ë‚†‡‚ ";
+            cout << " –°—Ç–∞—Ä—Ç ";
             if (operation == 1) printf("%c", 17);
-            cout << "\n\n ÇÎÂÆ§ ";
+            cout << "\n\n –í—ã—Ö–æ–¥ ";
             if (operation == 2) printf("%c", 17);
         }
 
-        if (menu == 2) { // ¢Î°Æ‡ „·´Æ¢®©
+        if (menu == 2) { // –≤—ã–±–æ—Ä —É—Å–ª–æ–≤–∏–π
 
-            cout << " á†§†©‚• ‡†ß¨•‡ ØÆ´Ô ® ™Æ´®Á•·‚¢Æ X ® O §´Ô ¢Î®£‡ÎË†.\n\n ìØ‡†¢´Ô©‚• ™´†¢®Ë†¨® " << char(27)
-                << " ® " << char(26) << " (A ® D) §´Ô ®ß¨•≠•≠®Ô ß≠†Á•≠®Ô: \n\n\n";
-            if (operation == 3) printf(" %c  Ñ´®≠† ØÆ´Ô   %c  %d  %c\n\n", 249, 17, (int)n, 16);
-            else printf("    Ñ´®≠† ØÆ´Ô   %c  %d  %c\n\n", 17, (int)n, 16);
+            cout << " –ó–∞–¥–∞–π—Ç–µ —Ä–∞–∑–º–µ—Ä –ø–æ–ª—è –∏ –∫–æ–ª–∏—á–µ—Å—Ç–≤–æ X –∏ O –¥–ª—è –≤—ã–∏–≥—Ä—ã—à–∞.\n\n –£–ø—Ä–∞–≤–ª—è–π—Ç–µ –∫–ª–∞–≤–∏—à–∞–º–∏ " << char(27)
+                << " –∏ " << char(26) << " (A –∏ D) –¥–ª—è –∏–∑–º–µ–Ω–µ–Ω–∏—è –∑–Ω–∞—á–µ–Ω–∏—è: \n\n\n";
+            if (operation == 3) printf(" %c  –î–ª–∏–Ω–∞ –ø–æ–ª—è   %c  %d  %c\n\n", 249, 17, (int)n, 16);
+            else printf("    –î–ª–∏–Ω–∞ –ø–æ–ª—è   %c  %d  %c\n\n", 17, (int)n, 16);
 
-            if (operation == 4) printf(" %c ò®‡®≠† ØÆ´Ô   %c  %d  %c\n\n", 249, 17, (int)m, 16);
-            else printf("   ò®‡®≠† ØÆ´Ô   %c  %d  %c\n\n", 17, (int)m, 16);
+            if (operation == 4) printf(" %c –®–∏—Ä–∏–Ω–∞ –ø–æ–ª—è   %c  %d  %c\n\n", 249, 17, (int)m, 16);
+            else printf("   –®–∏—Ä–∏–Ω–∞ –ø–æ–ª—è   %c  %d  %c\n\n", 17, (int)m, 16);
 
             if (operation == 5) printf("\t   %c X   %c  %d  %c\n\n", 249, 17, (int)x_cnt, 16);
             else printf("\t     X   %c  %d  %c\n\n", 17, (int)x_cnt, 16);
@@ -166,76 +170,77 @@ int main(void) {
             else printf("\t     O   %c  %d  %c\n\n", 17, (int)o_cnt, 16);
 
 
-            cout << "\n\n ç†Á†‚Ï ®£‡„ ";
+            cout << "\n\n –ù–∞—á–∞—Ç—å –∏–≥—Ä—É ";
             if (operation == 7) cout << char(17) << "\n" << endl;
             else cout << "\n" << endl;
 
 
-            cout << " ç†ß†§ ";
+            cout << " –ù–∞–∑–∞–¥ ";
             if (operation == 8) cout << char(17) << "\n\n" << endl;
             cout << "\n\n" << endl;
 
 
         }
 
-        if (menu == 3) { // ®£‡†
+        if (menu == 3) { // –∏–≥—Ä–∞
 
-            //  ØÆ·‚‡Æ•≠®• ØÆ´Ô
-            for (int i = 0; i < 2 * n + 1; i++) {
-                for (int j = 0; j < 2 * m + 1; j++) {
+            // –ø–æ—Å—Ç—Ä–æ–µ–Ω–∏–µ –ø–æ–ª—è
+            for (int i = 0; i < field.size(); i++) {
+                for (int j = 0; j < field[0].size(); j++) {
 
                     if (i == 0 && j == 0) field[i][j] = char(218);
-                    if (i == 2 * n && j == 2 * m) field[i][j] = char(217);
-                    if (i == 0 && j == 2 * m) field[i][j] = char(191);
-                    if (i == 2 * n && j == 0) field[i][j] = char(192);
+                    if (i == field.size() - 1 && j == field[0].size() - 1) field[i][j] = char(217);
+                    if (i == 0 && j == field[0].size() - 1) field[i][j] = char(191);
+                    if (i == field.size() - 1 && j == 0) field[i][j] = char(192);
 
                     if (j % 2 == 1 && i % 2 == 0) field[i][j] = char(196);
                     if (j % 2 == 0 && i % 2 == 1) field[i][j] = char(179);
 
-                    if (j != 2 * m && j != 0 && j % 2 == 0 && i == 2 * n) field[i][j] = char(193);
-                    if (j != 2 * m && j != 0 && j % 2 == 0 && i == 0) field[i][j] = char(194);
+                    if (j != field[0].size() - 1 && j != 0 && j % 2 == 0 && i == field.size() - 1) field[i][j] = char(193);
+                    if (j != field[0].size() - 1 && j != 0 && j % 2 == 0 && i == 0) field[i][j] = char(194);
 
-                    if (j == 0 && i % 2 == 0 && i != 0 && i != 2 * n) field[i][j] = char(195);
-                    if (j == 2 * m && i != 2 * n && i % 2 == 0 && i != 0 && i < 2 * n + 1 && j < 2 * m + 1) field[i][j] = char(180);
+                    if (j == 0 && i % 2 == 0 && i != 0 && i != field.size() - 1) field[i][j] = char(195);
+                    if (j == field[0].size() - 1 && i != field.size() - 1 && i % 2 == 0 && i != 0) field[i][j] = char(180);
 
-                    if (i != 2 * n && i != 0 && i % 2 == 0 && j != 2 * m && j % 2 == 0 && j != 0 && i < 2 * n + 1 && j < 2 * m + 1) field[i][j] = char(197);
+                    if (i != field.size() - 1 && i != 0 && i % 2 == 0 && j != field[0].size() - 1 && j % 2 == 0 && j != 0) field[i][j] = char(197);
                 }
             }
 
-            // ÂÆ§ X
+            // —Ö–æ–¥ X
             if (step == 0 && ans != char(88) && ans != char(79)) {
 
                 if (cnt <= n * m) {
-                    cout << " ÇÎ°•‡®‚• ØÆ´Æ¶•≠®• §´Ô ï ® ≠†¶¨®‚• Enter (§´Ô ØÆ°•§Î - ™Æ¨°®≠†Ê®Ô ®ß " << x_cnt << " ·®¨¢Æ´Æ¢)" << endl;
-                    cout << "\n à·ØÆ´Ïß„©‚• ·‚‡•´™® ≠† ™´†¢®†‚„‡• ®´® ™´†¢®Ë® WASD §´Ô Ø•‡•¨•È•≠®Ô:\n\n";
-                    if (ans != char(88) && ans != char(79)) field[a][b] = char(88); // ‚•™„È•• ØÆ´Æ¶•≠®• ï
+                    cout << " –í—ã–±–µ—Ä–∏—Ç–µ –ø–æ–ª–æ–∂–µ–Ω–∏–µ –¥–ª—è –• –∏ –Ω–∞–∂–º–∏—Ç–µ Enter (–¥–ª—è –ø–æ–±–µ–¥—ã - –∫–æ–º–±–∏–Ω–∞—Ü–∏—è –∏–∑ " << x_cnt << " —Å–∏–º–≤–æ–ª–æ–≤)" << endl;
+                    cout << "\n –ò—Å–ø–æ–ª—å–∑—É–π—Ç–µ —Å—Ç—Ä–µ–ª–∫–∏ –Ω–∞ –∫–ª–∞–≤–∏–∞—Ç—É—Ä–µ –∏–ª–∏ –∫–ª–∞–≤–∏—à–∏ WASD –¥–ª—è –ø–µ—Ä–µ–º–µ—â–µ–Ω–∏—è:\n\n";
+                    if (ans != char(88) && ans != char(79)) field[a][b] = char(88); // —Ç–µ–∫—É—â–µ–µ –ø–æ–ª–æ–∂–µ–Ω–∏–µ –•
                 }
 
             }
 
-            // ÂÆ§ é
+            // —Ö–æ–¥ –û
             else if (step == 1 && ans != char(88) && ans != char(79)) {
 
                 if (cnt <= n * m) {
-                    cout << " ÇÎ°•‡®‚• ØÆ´Æ¶•≠®• §´Ô é ® ≠†¶¨®‚• Enter (§´Ô ØÆ°•§Î - ™Æ¨°®≠†Ê®Ô ®ß " << o_cnt << " ·®¨¢Æ´Æ¢)" << endl;
-                    cout << "\n à·ØÆ´Ïß„©‚• ·‚‡•´™® ≠† ™´†¢®†‚„‡• ®´® ™´†¢®Ë® WASD §´Ô Ø•‡•¨•È•≠®Ô:\n\n";
-                    field[a][b] = char(79); // ‚•™„È•• ØÆ´Æ¶•≠®• é
+                    cout << " –í—ã–±–µ—Ä–∏—Ç–µ –ø–æ–ª–æ–∂–µ–Ω–∏–µ –¥–ª—è –û –∏ –Ω–∞–∂–º–∏—Ç–µ Enter (–¥–ª—è –ø–æ–±–µ–¥—ã - –∫–æ–º–±–∏–Ω–∞—Ü–∏—è –∏–∑ " << o_cnt << " —Å–∏–º–≤–æ–ª–æ–≤)" << endl;
+                    cout << "\n –ò—Å–ø–æ–ª—å–∑—É–π—Ç–µ —Å—Ç—Ä–µ–ª–∫–∏ –Ω–∞ –∫–ª–∞–≤–∏–∞—Ç—É—Ä–µ –∏–ª–∏ –∫–ª–∞–≤–∏—à–∏ WASD –¥–ª—è –ø–µ—Ä–µ–º–µ—â–µ–Ω–∏—è:\n\n";
+                    field[a][b] = char(79); // —Ç–µ–∫—É—â–µ–µ –ø–æ–ª–æ–∂–µ–Ω–∏–µ –û
                 }
 
             }
-            // ¢Î¢Æ§®¨ ‚•™„È•• ØÆ´Æ¶•≠®• ï ®´® é
-            for (int i = 0; i < 2 * n + 1; i++)
+
+            // –≤—ã–≤–æ–¥–∏–º —Ç–µ–∫—É—â–µ–µ –ø–æ–ª–æ–∂–µ–Ω–∏–µ –• –∏–ª–∏ –û
+            for (int i = 0; i < field.size(); i++)
             {
                 cout << ' ';
 
-                for (int j = 0; j < 2 * m + 1; j++) {
+                for (int j = 0; j < field[0].size(); j++) {
 
-                    if (field[i][j] == char(88)) { // •·´® ÂÆ§®‚ ï
+                    if (field[i][j] == char(88)) { // –µ—Å–ª–∏ —Ö–æ–¥–∏—Ç –•
                         HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
                         SetConsoleTextAttribute(hConsole, 244);
                         cout << field[i][j];
                     }
-                    else if (field[i][j] == char(79)) { // •·´® ÂÆ§®‚ é
+                    else if (field[i][j] == char(79)) { // –µ—Å–ª–∏ —Ö–æ–¥–∏—Ç –û
 
                         HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
                         SetConsoleTextAttribute(hConsole, 245);
@@ -251,29 +256,29 @@ int main(void) {
                 cout << endl;
             }
 
-            if (ans == char(88) || ans == char(79)) { // •·´® ÆØ‡•§•´Ò≠ ØÆ°•§®‚•´Ï
+            if (ans == char(88) || ans == char(79)) { // –µ—Å–ª–∏ –æ–ø—Ä–µ–¥–µ–ª—ë–Ω –ø–æ–±–µ–¥–∏—Ç–µ–ª—å
 
-                cout << "\n\n à£‡† Æ™Æ≠Á•≠†!\n\n à‚Æ£: ";
-                if (ans == char(88)) cout << "ØÆ°•§† ï" << endl;
-                if (ans == char(79)) cout << "ØÆ°•§† O" << endl;
+                cout << "\n\n –ò–≥—Ä–∞ –æ–∫–æ–Ω—á–µ–Ω–∞!\n\n –ò—Ç–æ–≥: ";
+                if (ans == char(88)) cout << "–ø–æ–±–µ–¥–∞ –•" << endl;
+                if (ans == char(79)) cout << "–ø–æ–±–µ–¥–∞ O" << endl;
 
                 win = 1;
             }
-            else if (ans == ' ' && cnt == n * m + 1) { // •·´® ØÆ°•§®‚•´Ô ≠•‚
-                cout << "\n\n à£‡† Æ™Æ≠Á•≠†!\n\n à‚Æ£: ≠®ÁÏÔ" << endl;
+            else if (ans == ' ' && cnt == n * m + 1) { // –µ—Å–ª–∏ –ø–æ–±–µ–¥–∏—Ç–µ–ª—è –Ω–µ—Ç
+                cout << "\n\n –ò–≥—Ä–∞ –æ–∫–æ–Ω—á–µ–Ω–∞!\n\n –ò—Ç–æ–≥: –Ω–∏—á—å—è" << endl;
             }
 
-            cout << "\n\n 1. ä ¢Î°Æ‡„ „·´Æ¢®© (ØÆ‚•‡Ô Ø‡Æ£‡•··†)\n" << endl;
+            cout << "\n\n 1. –ö –≤—ã–±–æ—Ä—É —É—Å–ª–æ–≤–∏–π (–ø–æ—Ç–µ—Ä—è –ø—Ä–æ–≥—Ä–µ—Å—Å–∞)\n" << endl;
 
-            cout << " 2. É´†¢≠Æ• ¨•≠Ó\n" << endl;
+            cout << " 2. –ì–ª–∞–≤–Ω–æ–µ –º–µ–Ω—é\n" << endl;
 
         }
 
-        key = _getch(); // ¢¢Æ§ ™´†¢®Ë®
+        key = _getch(); // –≤–≤–æ–¥ –∫–ª–∞–≤–∏—à–∏
 
         if (key == 49) { // 1
 
-            if (menu == 3) { // ¢ ¨•≠Ó 2 ®ß ¨•≠Ó 3
+            if (menu == 3) { // –≤ –º–µ–Ω—é 2 –∏–∑ –º–µ–Ω—é 3
 
                 menu = 2;
                 operation = 3;
@@ -284,19 +289,19 @@ int main(void) {
                 win = 0;
                 step = 0;
                 ans = ' ';
-                for (int i = 0; i < 14; i++) {
-                    for (int j = 0; j < 14; j++) field[i][j] = ' ';
-                }
+
+                field.clear();
+                field.assign(2 * m + 1, vector<char>(2 * n + 1));
+
                 continue;
 
             }
-            
 
         }
 
         if (key == 50) { // 2
 
-            if (menu == 3) { // ¢ ¨•≠Ó 1 ®ß ¨•≠Ó 3
+            if (menu == 3) { // –≤ –º–µ–Ω—é 1 –∏–∑ –º–µ–Ω—é 3
 
                 menu = 1;
                 operation = 1;
@@ -307,9 +312,10 @@ int main(void) {
                 win = 0;
                 ans = ' ';
                 step = 0;
-                for (int i = 0; i < 14; i++) {
-                    for (int j = 0; j < 14; j++) field[i][j] = ' ';
-                }
+
+                field.clear();
+                field.assign(2 * m + 1, vector<char>(2 * n + 1));
+
                 continue;
 
             }
@@ -320,7 +326,7 @@ int main(void) {
 
             if (menu != 3) {
 
-                if (operation == 1) { // ¢ ¨•≠Ó 2 ®ß ¨•≠Ó 1
+                if (operation == 1) { // –≤ –º–µ–Ω—é 2 –∏–∑ –º–µ–Ω—é 1
 
                     menu = 2;
                     operation = 3;
@@ -328,14 +334,22 @@ int main(void) {
 
                 }
 
-                if (operation == 2) { // ¢ÎÂÆ§
+                if (operation == 2) { // –≤—ã—Ö–æ–¥
 
                     return 0;
                     break;
 
                 }
 
-                if (operation == 7) { // ¢ ¨•≠Ó 3 ®ß ¨•≠Ó 2
+                if (operation == 8) { // –≤ –º–µ–Ω—é 1 –∏–∑ –º–µ–Ω—é 2
+
+                    menu = 1;
+                    operation = 1;
+                    continue;
+
+                }
+
+                if (operation == 7) { // –≤ –º–µ–Ω—é 3 –∏–∑ –º–µ–Ω—é 2
 
                     menu = 3;
                     win = 0;
@@ -343,40 +357,32 @@ int main(void) {
                     continue;
 
                 }
-
-                if (operation == 8) { // ¢ ¨•≠Ó 1 ®ß ¨•≠Ó 2
-
-                    menu = 1;
-                    operation = 1;
-                    continue;
-
-                }
             }
 
             else {
 
-                if (win) continue; // ≠• ‡•†£®‡„•¨ •·´® „¶• ¢Î®£‡†´®
+                if (win) continue; // –Ω–µ —Ä–µ–∞–≥–∏—Ä—É–µ–º –µ—Å–ª–∏ —É–∂–µ –≤—ã–∏–≥—Ä–∞–ª–∏
 
                 if (cnt >= n * m + 1 || ans != ' ') continue;
 
                 else if (step == 0 && ans != char(88) && ans != char(79)) {
 
                     step = 1;
-                    ans = check(field, x_cnt, a, b, char(88), n, m);
+                    ans = check(field, x_cnt, a, b, char(88));
                     cnt++;
 
                 }
                 else if (step == 1 && ans != char(88) && ans != char(79)) {
 
                     step = 0;
-                    ans = check(field, o_cnt, a, b, char(79), n, m);
+                    ans = check(field, o_cnt, a, b, char(79));
                     cnt++;
 
                 }
 
-                for (int i = 0; i < n * 2 + 1; i++)
+                for (int i = 0; i < field.size(); i++)
                 {
-                    for (int j = 0; j < m * 2 + 1; j++) {
+                    for (int j = 0; j < field[0].size(); j++) {
                         if (field[i][j] != char(88) && field[i][j] != char(79) && i % 2 == 1 && j % 2 == 1) {
                             a = i;
                             b = j;
@@ -389,9 +395,13 @@ int main(void) {
             }
         }
 
-        if (key == 80 || key == 155 || key == 235 || key == 115) { // ¢≠®ß
 
-            if (win) continue; // ≠• ‡•†£®‡„•¨ •·´® „¶• ¢Î®£‡†´®
+        //     if (key == 224) { // –Ω–∞–∂–∞—Ç–∞ —Å—Ç—Ä–µ–ª–∫–∞
+      //           int inp2 = _getch();
+
+        if (key == 80 || key == 155 || key == 235 || key == 115) { // –≤–Ω–∏–∑
+
+            if (win) continue; // –Ω–µ —Ä–µ–∞–≥–∏—Ä—É–µ–º –µ—Å–ª–∏ —É–∂–µ –≤—ã–∏–≥—Ä–∞–ª–∏
 
             if (menu != 3) operation += 1;
 
@@ -411,7 +421,7 @@ int main(void) {
 
                 lock = 1;
 
-                for (int i = a + 2; i < n * 2 + 1; i += 2) { // ®È•¨ Ø„·‚Î• ÔÁ•©™® ·≠®ß„
+                for (int i = a + 2; i < field.size(); i += 2) { // –∏—â–µ–º –ø—É—Å—Ç—ã–µ —è—á–µ–π–∫–∏ —Å–Ω–∏–∑—É
 
                     if (field[i][b] != char(88) && field[i][b] != char(79)) {
 
@@ -422,12 +432,12 @@ int main(void) {
                     }
                 }
 
-                if (lock) { // ¢•·Ï ·‚Æ´°•Ê ·≠®ß„ ß†≠Ô‚
+                if (lock) { // –≤–µ—Å—å —Å—Ç–æ–ª–±–µ—Ü —Å–Ω–∏–∑—É –∑–∞–Ω—è—Ç
                     pol = 0;
 
-                    for (int i = a + 2; i < n * 2 + 1; i += 2)
+                    for (int i = a + 2; i < field.size(); i += 2)
                     {
-                        for (int j = 1; j < m * 2 + 1; j += 2) {
+                        for (int j = 1; j < field[0].size(); j += 2) {
 
                             if (pol) continue;
 
@@ -443,10 +453,10 @@ int main(void) {
                         }
 
                     }
-                    if (pol == 0) { // Æ·‚†´®·Ï ‚Æ´Ï™Æ ÔÁ•©™® ·¢•‡Â„
-                        for (int i = 1; i < n * 2 + 1; i += 2)
+                    if (pol == 0) { // –æ—Å—Ç–∞–ª–∏—Å—å —Ç–æ–ª—å–∫–æ —è—á–µ–π–∫–∏ —Å–≤–µ—Ä—Ö—É
+                        for (int i = 1; i < field.size(); i += 2)
                         {
-                            for (int j = 1; j < m * 2 + 1; j += 2) {
+                            for (int j = 1; j < field[0].size(); j += 2) {
 
                                 if (pol) continue;
 
@@ -470,9 +480,9 @@ int main(void) {
             continue;
         }
 
-        if (key == 75 || key == 148 || key == 228 || key == 97) { // ¢´•¢Æ
+        if (key == 75 || key == 148 || key == 228 || key == 97) { // –≤–ª–µ–≤–æ
 
-            if (win) continue; // ≠• ‡•†£®‡„•¨ •·´® „¶• ¢Î®£‡†´®
+            if (win) continue; // –Ω–µ —Ä–µ–∞–≥–∏—Ä—É–µ–º –µ—Å–ª–∏ —É–∂–µ –≤—ã–∏–≥—Ä–∞–ª–∏
 
             if (menu == 2) {
 
@@ -496,11 +506,10 @@ int main(void) {
                     else o_cnt--;
                 }
 
-                a = 2 * n - 1;
+                field.assign(2 * m + 1, vector<char>(2 * n + 1));
+                win_field.assign(2 * m + 1, vector<char>(2 * n + 1));
+                a = field.size() - 2;
                 b = 1;
-                for (int i = 0; i < 2 * 14 + 1; i++) {
-                    for (int j = 0; j < 2 * 14 + 1; j++) field[i][j] = ' ';
-                }
                 continue;
             }
 
@@ -508,7 +517,7 @@ int main(void) {
 
                 lock = 1;
 
-                for (int j = b - 2; j >= 1; j -= 2) { // ®È•¨ Ø„·‚Î• Ì´•¨•≠‚Î ·´•¢†
+                for (int j = b - 2; j >= 1; j -= 2) { // –∏—â–µ–º –ø—É—Å—Ç—ã–µ —ç–ª–µ–º–µ–Ω—Ç—ã —Å–ª–µ–≤–∞
 
                     if (field[a][j] != char(88) && field[a][j] != char(79)) {
 
@@ -519,13 +528,13 @@ int main(void) {
                     }
                 }
 
-                if (lock) { // ·´•¢† ¢·Ò ß†≠Ô‚Æ
+                if (lock) { // —Å–ª–µ–≤–∞ –≤—Å—ë –∑–∞–Ω—è—Ç–æ
 
                     pol = 0;
                     if (a != 1) {
-                        for (int i = a - 2; i >= 1; i -= 2) // ®È•¨ ÔÁ•©™® ·¢•‡Â„ ·Ø‡†¢† ≠†´•¢Æ
+                        for (int i = a - 2; i >= 1; i -= 2) // –∏—â–µ–º —è—á–µ–π–∫–∏ —Å–≤–µ—Ä—Ö—É —Å–ø—Ä–∞–≤–∞ –Ω–∞–ª–µ–≤–æ
                         {
-                            for (int j = 2 * m - 1; j >= 1; j -= 2) {
+                            for (int j = field[0].size() - 2; j >= 1; j -= 2) {
 
                                 if (pol) continue;
 
@@ -542,11 +551,11 @@ int main(void) {
 
                         }
                     }
-                    if (pol == 0) { // •·´® ß†≠Ô‚Æ, ®§Ò¨ · ™Æ≠Ê†
+                    if (pol == 0) { // –µ—Å–ª–∏ –∑–∞–Ω—è—Ç–æ, –∏–¥—ë–º —Å –∫–æ–Ω—Ü–∞
 
-                        for (int i = 2 * n - 1; i >= 1; i -= 2)
+                        for (int i = field.size() - 2; i >= 1; i -= 2)
                         {
-                            for (int j = 2 * m - 1; j >= 1; j -= 2) {
+                            for (int j = field[0].size() - 2; j >= 1; j -= 2) {
 
                                 if (pol) continue;
 
@@ -569,9 +578,9 @@ int main(void) {
             }
         }
 
-        if (key == 77 || key == 130 || key == 162 || key == 100) { // ¢Ø‡†¢Æ
+        if (key == 77 || key == 130 || key == 162 || key == 100) { // –≤–ø—Ä–∞–≤–æ
 
-            if (win) continue; // ≠• ‡•†£®‡„•¨ •·´® „¶• ¢Î®£‡†´®
+            if (win) continue; // –Ω–µ —Ä–µ–∞–≥–∏—Ä—É–µ–º –µ—Å–ª–∏ —É–∂–µ –≤—ã–∏–≥—Ä–∞–ª–∏
 
             if (menu == 2) {
 
@@ -603,11 +612,10 @@ int main(void) {
 
                 }
 
-                a = 2 * n - 1;
+                field.assign(2 * m + 1, vector<char>(2 * n + 1)); // –∏–∑–º–µ–Ω—è–µ–º –∑–Ω–∞—á–µ–Ω–∏–µ –≤–µ–∫—Ç–æ—Ä–∞
+                win_field.assign(2 * m + 1, vector<char>(2 * n + 1));
+                a = field.size() - 2;
                 b = 1;
-                for (int i = 0; i < 2 * 14 + 1; i++) {
-                    for (int j = 0; j < 2 * 14 + 1; j++) field[i][j] = ' ';
-                }
                 continue;
 
             }
@@ -616,7 +624,7 @@ int main(void) {
 
                 lock = 1;
 
-                for (int j = b + 2; j < 2 * m + 1; j += 2) { // ·¨Æ‚‡®¨ Ì´•¨•≠‚Î ·Ø‡†¢†
+                for (int j = b + 2; j < field[0].size(); j += 2) { // —Å–º–æ—Ç—Ä–∏–º —ç–ª–µ–º–µ–Ω—Ç—ã —Å–ø—Ä–∞–≤–∞
 
                     if (field[a][j] != char(88) && field[a][j] != char(79)) {
 
@@ -626,13 +634,13 @@ int main(void) {
                         break;
                     }
                 }
-                if (lock) { // ·Ø‡†¢† ¢·Ò ß†≠Ô‚Æ
+                if (lock) { // —Å–ø—Ä–∞–≤–∞ –≤—Å—ë –∑–∞–Ω—è—Ç–æ
 
                     pol = 0;
 
-                    for (int i = a + 2; i < 2 * n + 1; i += 2) // ®È•¨ ÔÁ•©™® ·≠®ß„ ·´•¢† ≠†Ø‡†¢Æ
+                    for (int i = a + 2; i < field.size(); i += 2) // –∏—â–µ–º —è—á–µ–π–∫–∏ —Å–Ω–∏–∑—É —Å–ª–µ–≤–∞ –Ω–∞–ø—Ä–∞–≤–æ
                     {
-                        for (int j = 1; j < 2 * m + 1; j += 2) {
+                        for (int j = 1; j < field[0].size(); j += 2) {
 
                             if (pol) continue;
 
@@ -651,9 +659,9 @@ int main(void) {
 
                     if (pol == 0) {
 
-                        for (int i = 1; i < 2 * n + 1; i += 2) // ®È•¨ ÔÁ•©™® · ≠†Á†´†
+                        for (int i = 1; i < field.size(); i += 2) // –∏—â–µ–º —è—á–µ–π–∫–∏ —Å –Ω–∞—á–∞–ª–∞
                         {
-                            for (int j = 1; j < 2 * m + 1; j += 2) {
+                            for (int j = 1; j < field[0].size(); j += 2) {
 
                                 if (pol) continue;
 
@@ -675,9 +683,9 @@ int main(void) {
             }
         }
 
-        if (key == 72 || key == 150 || key == 230 || key == 119) { // ¢¢•‡Â
+        if (key == 72 || key == 150 || key == 230 || key == 119) { // –≤–≤–µ—Ä—Ö
 
-            if (win) continue; // ≠• ‡•†£®‡„•¨ •·´® „¶• ¢Î®£‡†´®
+            if (win) continue; // –Ω–µ —Ä–µ–∞–≥–∏—Ä—É–µ–º –µ—Å–ª–∏ —É–∂–µ –≤—ã–∏–≥—Ä–∞–ª–∏
 
             if (menu != 3) operation -= 1;
 
@@ -696,7 +704,7 @@ int main(void) {
 
                 lock = 1;
 
-                for (int i = a - 2; i >= 0; i -= 2) { // ®È•¨ Ø„·‚„Ó ÔÁ•©™„ ·¢•‡Â„
+                for (int i = a - 2; i >= 0; i -= 2) { // –∏—â–µ–º –ø—É—Å—Ç—É—é —è—á–µ–π–∫—É —Å–≤–µ—Ä—Ö—É
 
                     if (field[i][b] != char(88) && field[i][b] != char(79)) {
 
@@ -707,11 +715,11 @@ int main(void) {
                     }
                 }
 
-                if (lock) { // •·´® ß†≠Ô‚Æ, ®È•¨ Ø„·‚„Ó ÔÁ•©™„ ·´•¢† ≠†Ø‡†¢Æ ·¢•‡Â„
+                if (lock) { // –µ—Å–ª–∏ –∑–∞–Ω—è—Ç–æ, –∏—â–µ–º –ø—É—Å—Ç—É—é —è—á–µ–π–∫—É —Å–ª–µ–≤–∞ –Ω–∞–ø—Ä–∞–≤–æ —Å–≤–µ—Ä—Ö—É
                     pol = 0;
                     for (int i = a - 2; i >= 0; i -= 2)
                     {
-                        for (int j = 1; j < 2 * m + 1; j += 2) {
+                        for (int j = 1; j < field[0].size(); j += 2) {
 
                             if (pol) continue;
 
@@ -727,9 +735,9 @@ int main(void) {
                         }
 
                     }
-                    if (pol == 0) { // Æ·‚†´®·Ï ‚Æ´Ï™Æ ÔÁ•©™® ·≠®ß„
-                        for (int i = 2 * n - 1; i >= 1; i -= 2) {
-                            for (int j = 2 * m - 1; j >= 1; j -= 2) {
+                    if (pol == 0) { // –æ—Å—Ç–∞–ª–∏—Å—å —Ç–æ–ª—å–∫–æ —è—á–µ–π–∫–∏ —Å–Ω–∏–∑—É
+                        for (int i = field.size() - 2; i >= 1; i -= 2) {
+                            for (int j = field[0].size() - 2; j >= 1; j -= 2) {
 
                                 if (pol) continue;
 
