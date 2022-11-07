@@ -124,7 +124,7 @@ int main(void) {
 
     setlocale(LC_ALL, "Russian");
 
-    int key; // номер клавиши
+    int key, z; // номер клавиши
     char sym = '0'; // символ
     short operation = 1; // пункт меню
     char str_1[21] = { "\0" };
